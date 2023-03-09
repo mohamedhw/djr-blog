@@ -1,4 +1,4 @@
-import useFetch from "../useFetch"
+import {useFetch} from "../useFetch"
 import { useParams } from "react-router-dom"
 
 const Detail = () => {
@@ -13,6 +13,9 @@ const Detail = () => {
                 <div className="detail--post p-5">
                     <h1 className="m-5">{post.title}</h1>
                     <hr></hr>
+                    <div>
+                        <img alt='profile pic' style={{width: '1200px'}} src={post.image}/>
+                    </div>
                     <p className="m-5 p-5">{post.body}</p>
                 </div>
             }

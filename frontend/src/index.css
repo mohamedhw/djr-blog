@@ -9,3 +9,7 @@ a {
   border: 1px solid black !important;
   width: 100% !important;
 }
+
+.nav--link {
+  color: hsla(0,0%,100%,.55)
+}

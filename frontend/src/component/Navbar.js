@@ -1,8 +1,24 @@
 import { Link } from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar';
+import { logout } from "../redux/action/auth";
+import { connect } from 'react-redux';
 
-const NavBar = () => {
+const NavBar = ({logout, isAuthenticated}) => {
 
+    const logedinview = (
+        <>
+            <Link className="nav-link" aria-current="page" to="/create">Create</Link>
+            <Link className="nav-link" aria-current="page" to="/profile">Profile</Link>
+
+            <a className="p-2 nav--link" href="#!" onClick={logout}>Logout</a>
+        </>
+    )
+    const logedoutview = (
+        <>
+            <Link className="nav-link" aria-current="page" to="/register">Register</Link>
+            <Link className="nav-link" aria-current="page" to="/login">Login</Link>
+        </>
+    )
     return (
         <Navbar bg='dark' variant="dark" className='m-2'>
             <div className="container-fluid">
@@ -12,7 +28,8 @@ const NavBar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                        <Link className="nav-link" aria-current="page" to="/">Home</Link>
+                        { isAuthenticated ? logedinview : logedoutview }
                     </div>
                 </div>
             </div>
@@ -20,4 +37,8 @@ const NavBar = () => {
     )
 }
 
-export default NavBar
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { logout })(NavBar);

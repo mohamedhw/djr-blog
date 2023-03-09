@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 
 
-const useFetch = (url) => {
+export const useFetch = (url) => {
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(true)
     const [handleErr, setErr] = useState(null)
@@ -19,9 +19,22 @@ const useFetch = (url) => {
             setLoading(false);
             setErr(err.message);
         })
-    }, [url])
+    }, [])
 
     return {data, handleErr, isLoading}
 }
 
-export default useFetch
+
+export const useFetchPost = (url, data) => {
+
+    useEffect(()=>{
+        axios.post(url, data, {'content-type': 'application/json'})
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(err =>{
+            console.log(err) 
+        })
+    }, [])
+
+}

@@ -1,0 +1,71 @@
+import process from "process";
+import axios from "axios"
+import { PROFILE_SUCCESS, PROFILE_FAIL, PROFILE_UPDATE_SUCCESS, PROFILE_UPDATE_FAIL } from './type';
+import Cookies from 'js-cookie'
+
+
+export const profile = () => async dispatch => {
+    const config = {
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+    };
+
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api-profile/`, config)
+        if(res.data.error){
+            dispatch({
+                type: PROFILE_FAIL,
+            })
+        }
+        else {
+            dispatch({
+                type: PROFILE_SUCCESS,
+                payload: res.data
+            })
+        }
+    }
+    catch(err){
+        dispatch({
+            type: PROFILE_FAIL
+        })
+    }
+}
+
+
+export const profile_update = (form_data) => async dispatch => {
+    console.log(form_data)
+    const config = {
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get('csrftoken')
+        }
+    };
+
+    const body = form_data
+    console.log(body)
+    try{
+        
+        const res = await axios.put(`${process.env.REACT_APP_API_URL}/api-profile-update/`, body, config)
+
+
+        if (res.data.success){
+            dispatch({
+                type: PROFILE_UPDATE_SUCCESS,
+                payload: res.data
+            })
+        }else{
+            dispatch({
+                type: PROFILE_UPDATE_FAIL
+            })
+        }
+
+    }
+    catch(err){
+        dispatch({
+            type: PROFILE_UPDATE_FAIL
+        })
+    }
+}
