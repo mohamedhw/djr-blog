@@ -10,6 +10,8 @@ import LayOut from './Layout';
 import PrivetRoute from './PrivetRoute';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
+import PostUpdate from './pages/PostUpdate';
+import PostDelete from './pages/PostDelete';
 
 function App() {
   return (
@@ -18,10 +20,12 @@ function App() {
           <NavBar/>
           <Routes>
             <Route element={<PrivetRoute/>}>
-              <Route path='/:postId' element={<Detail />} />
               <Route path='/create' element={<CreatePost />} />
-            </Route>
               <Route path='/profile' element={<Profile />} />
+              <Route path='/:postId' element={<Detail />} />
+            </Route>
+            <Route path='/post-update/:postId' element={<PostUpdate/>}/>
+            <Route path='/post-delete/:postId' element={<PostDelete/>}/>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route exact path='/' element={<Home />} />

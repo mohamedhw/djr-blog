@@ -2,8 +2,13 @@ import { useState } from "react"
 import axios from 'axios';
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux"
 
-const CreatePost=()=>{
+
+
+const CreatePost=({user_g})=>{
+    const user = user_g
+    
     const [title, setTitle]=useState()
     const [body, setBody]=useState()
     const [image, setImage] = useState(null)
@@ -12,10 +17,11 @@ const CreatePost=()=>{
     const handleSubmit=(e)=>{
         e.preventDefault();
         let form_data = new FormData();
+        form_data.append('author', user);
         form_data.append('title', title);
         form_data.append('body', body);
         form_data.append('image', image);
-        console.log(form_data)
+        
         const config = {     
             headers: { 'content-type': 'multipart/form-data', 'X-CSRFToken': Cookies.get('csrftoken') }
         }
@@ -52,4 +58,9 @@ const CreatePost=()=>{
     )
 }
 
-export default CreatePost
+
+const mapStateToProps = (state) => ({
+    user_g: state.profile.user
+})
+
+export default connect(mapStateToProps, {}) (CreatePost);

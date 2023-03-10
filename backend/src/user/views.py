@@ -24,24 +24,37 @@ class ProfileView(APIView):
         return Response({'profile': user_profile.data, 'username':str(username)})
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
-class UpdateProfileView(APIView):
-    def put(self, request):
-        data = self.request.data 
-        new_username = data['username'] # new username
-        new_image = data['image'] # new image
-        user = self.request.user # user
-        username = user.username # username
-        user = User.objects.get(id=user.id)
-        user.username = new_username
-        user.save()
-        print(user.username)
-        profile = Profile.objects.filter(user=user).update(image=new_image)
+class UpdateUserView(APIView):
+    def put(self, *args, **kwargs):
+        try:
+            data = self.request.data
+            new_username = data['username'] # new username
+            user_now = self.request.user # user
+            username = user_now.username # username
+            user = User.objects.get(id=user_now.id)
+            user.username = new_username
+            user.save()
+            return Response({'success': "updated successfully", 'username':str(user.username)})
+        except:
+            return Response({"error": "could not update this username!"})
         
-        profile = Profile.objects.get(user=user)
-        profile = UserProfileSerializer(profile)
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class UpdateProfileView(generics.UpdateAPIView):
+    queryset =  Profile.objects.all()
+    serializer_class = UserProfileSerializer()
 
-        return Response({'success': profile.data, 'username':str(user.username)})
+    def get_object(self, *args, **kwargs):
+        profile = Profile.objects.get(user=self.request.user)
+        return profile
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object(user=request.user)
+        serializer = UserProfileSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "profile image updated successfully"})
+        else:
+            return Response({"message": "failed", "details": serializer.errors})
 
 class UserProfileAPIView(generics.UpdateAPIView):
     queryset = Profile.objects.all()

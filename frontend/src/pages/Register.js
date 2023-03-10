@@ -10,7 +10,7 @@ const Register = ({register, isAuthenticated}) => {
     const [password, setPassword]=useState()
     const [password2, setPassword2] = useState(null)
     const navigate = useNavigate()
-    console.log(isAuthenticated)
+    
     const handleSubmit=(e)=>{
         e.preventDefault();
         // let form_data = new FormData();
