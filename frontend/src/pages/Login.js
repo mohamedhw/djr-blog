@@ -16,7 +16,7 @@ const Login = ({isAuthenticated, login}) => {
     }
 
     if(isAuthenticated){
-        navigate('/profile')
+        navigate('/')
     }
     return (
         <div>

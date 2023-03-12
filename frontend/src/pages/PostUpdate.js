@@ -10,6 +10,7 @@ const PostUpdate = ({username_g}) => {
 
     const user_g =  username_g
     const {postId} = useParams()
+    console.log(postId)
     const [title, setTitle]=useState()
     const [body, setBody]=useState()
     const [image, setImage] = useState(null)

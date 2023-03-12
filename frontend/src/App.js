@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App container">
       <LayOut>
-          <NavBar/>
+          <NavBar />
           <Routes>
             <Route element={<PrivetRoute/>}>
               <Route path='/create' element={<CreatePost />} />

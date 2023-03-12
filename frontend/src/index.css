@@ -13,3 +13,20 @@ a {
 .nav--link {
   color: hsla(0,0%,100%,.55)
 }
+
+.author-img {
+  border-radius: 50%;
+  height:70px;
+  width: 90px;
+}
+
+
+.my-border {
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  margin-top: 100px;
+  margin-bottom: 40px;
+  padding: 20px;
+  box-shadow: 5px 10px #888888;
+}
+

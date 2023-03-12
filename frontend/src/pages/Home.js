@@ -1,17 +1,46 @@
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
 import {useFetch} from "../useFetch"
-
+import {Link} from 'react-router-dom'
+import axios from "axios"
+import Cookies from 'js-cookie'
 
 
 const Home = () => {
-    const {data:posts, isLoading, handleError} = useFetch('http://localhost:8000/api-post/')
+    // const {data:posts} = useFetch('http://localhost:8000/api-post/')
+
+    const [q, setQ] = useState(null)
+    const [data, setData] = useState(null)
+    const [isLoading, setLoading] = useState(true)
+    const [handleErr, setErr] = useState(null)
+    const url = q? `http://localhost:8000/api-post/?q=${q}` : `http://localhost:8000/api-post/`
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "X-CSRFToken": Cookies.get('csrftoken')
+            }
+        }
+        axios.get(url, config)
+        .then((res) => {
+            setData(res.data)
+            setLoading(false);
+            setErr(null);
+        })
+        .catch(err =>{
+            setLoading(false);
+            setErr(err.message);
+        })
+    }, [q]);
 
     return (
         <div>
-            {handleError && {handleError}}
+            <input type="search" value={q} placeholder="Search" name="q" onChange={e => setQ(e.target.value)}/>
+            {handleErr && {handleErr}}
             {isLoading && <h1>Loading...</h1>}
-            { posts &&  <div  className=''>
-                            {posts.map((post) => (
+            { data &&  <div  className=''>
+                            {data.map((post) => (
                                 <div key={post.id} className='row mt-3'>
                                     <div className="col-lg-1"></div>
                                     <Link className="col-lg-10" to={`/${post.id}`}>
