@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 
 
 const PrivateRoute = ({isAuthenticated}) => {
-    console.log(isAuthenticated)
+    if (isAuthenticated){
+        return (
+            <Outlet/>
+        )
+    }
     return (
-        isAuthenticated ? <Outlet/> : <Navigate to="/login"/>
+        <Navigate to="/login"/>
     )
-
 }
 
 const mapStateToProps = state => ({

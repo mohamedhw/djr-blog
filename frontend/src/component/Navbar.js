@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { logout } from "../redux/action/auth";
 import { connect } from 'react-redux';
 
-const NavBar = ({logout, isAuthenticated}) => {
+const NavBar = ({logout, isAuthenticated, setQ}) => {
 
     const logedinview = (
         <>
@@ -32,11 +32,9 @@ const NavBar = ({logout, isAuthenticated}) => {
                         { isAuthenticated ? logedinview : logedoutview }
                     </div>
                 </div>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-
+                <div className="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" onChange={e => setQ(e.target.value)}/>
+                </div>
             </div>
         </Navbar>
     )

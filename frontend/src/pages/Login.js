@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import CSRFToken from "../component/CSRFToken";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {login} from '../redux/action/auth'
 import { useNavigate } from "react-router-dom";
 
@@ -9,14 +9,15 @@ const Login = ({isAuthenticated, login}) => {
     const [username, setUsername]=useState()
     const [password, setPassword]=useState()
     const navigate = useNavigate()
+    const refresh = () => window.location.reload(true)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         login(username, password)
     }
-
+    
     if(isAuthenticated){
-        navigate('/')
+        navigate("/")
     }
     return (
         <div>

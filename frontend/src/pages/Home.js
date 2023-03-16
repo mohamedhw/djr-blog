@@ -5,10 +5,9 @@ import axios from "axios"
 import Cookies from 'js-cookie'
 
 
-const Home = () => {
+const Home = ({q}) => {
     // const {data:posts} = useFetch('http://localhost:8000/api-post/')
 
-    const [q, setQ] = useState(null)
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(true)
     const [handleErr, setErr] = useState(null)
@@ -36,7 +35,6 @@ const Home = () => {
 
     return (
         <div>
-            <input type="search" value={q} placeholder="Search" name="q" onChange={e => setQ(e.target.value)}/>
             {handleErr && {handleErr}}
             {isLoading && <h1>Loading...</h1>}
             { data &&  <div  className=''>

@@ -6,13 +6,12 @@ import { connect } from 'react-redux'
 
 const Profile = ({ profile, profile_update, user_update, username_global, image_global}) => {
 
-
     const [username, setUsername] = useState(username_global)
     const [image, setImage] = useState()
     
     useEffect(() => {
         profile()
-    }, []);
+    }, [image, username]);
 
     const handelSubmit = (e) => {
         e.preventDefault();
